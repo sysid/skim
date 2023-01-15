@@ -18,7 +18,8 @@ pub fn main() {
     // `delete` and `create` are arbitrary keywords used for this example.
     let options = SkimOptionsBuilder::default()
         .multi(true)
-        .bind(vec!["bs:abort", "Enter:accept"])
+        //.bind(vec!["bs:abort", "Enter:accept", "ctrl-a:select-all+accept"])
+        .bind(vec!["ctrl-a:accept"])
         .build()
         .unwrap();
 
@@ -27,6 +28,7 @@ pub fn main() {
         Key::Backspace => out.selected_items.iter().for_each(|i| fake_delete_item(&i.text())),
         // Create a new item based on the query
         Key::Enter => fake_create_item(out.query.as_ref()),
+        Key::Ctrl('a') => fake_create_item(out.query.as_ref()),
         _ => (),
     });
 }
